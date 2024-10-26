@@ -87,7 +87,7 @@ elif options == "About Us" :
      st.title('News Summarizer Tool')
      st.subheader("About Me")
      st.write("# Alexander Castro")
-     st.image('images/pic.jpg')
+     st.image('images/pic.jpg', width="40%")
      st.write("## AI First Bootcamp Student")
      st.text("Connect with me via Linkedin : https://www.linkedin.com/in/alexander-sebastian-castro/")
      st.write("\n")

@@ -16,53 +16,128 @@ import streamlit as st
 import warnings
 from streamlit_option_menu import option_menu
 from streamlit_extras.mention import mention
+from newspaper import Article
 
-# Set page configuration
-st.set_page_config(page_title="AI Assistant", layout="wide")
+warnings.filterwarnings("ignore")
 
-# Sidebar for OpenAI API key input
-with st.sidebar:
-    openai_api_key = st.text_input("Enter your OpenAI API key", type="password")
-    st.caption("Your API key is stored temporarily and not saved.")
 
-# Main content
-st.title("AI Assistant")
+st.set_page_config(page_title="News Summarizer Tool", page_icon="", layout="wide")
 
-# About Me section
-st.header("About Me")
-st.write("""
-Welcome to my AI Assistant app! I'm an AI enthusiast and developer passionate about creating 
-user-friendly interfaces for AI interactions. This app demonstrates a simple integration 
-with OpenAI's API to provide an interactive chat experience.
-""")
-
-# User input for the prompt
-user_prompt = st.text_area("Enter your prompt here:", height=100)
-
-# Button to generate response
-if st.button("Generate Response"):
-    if not openai_api_key:
-        st.error("Please enter your OpenAI API key in the sidebar.")
-    elif not user_prompt:
-        st.warning("Please enter a prompt.")
+with st.sidebar :
+    st.image('images/White_AI Republic.png')
+    openai.api_key = st.text_input('Enter OpenAI API token:', type='password')
+    if not (openai.api_key.startswith('sk-') and len(openai.api_key)==164):
+        st.warning('Please enter your OpenAI API token!', icon='⚠️')
     else:
-        try:
-            # Set the OpenAI API key
-            openai.api_key = openai_api_key
-            
-            # Generate response using OpenAI API
-            response = openai.Completion.create(
-                engine="text-davinci-002",
-                prompt=user_prompt,
-                max_tokens=150
-            )
-            
-            # Display the response
-            st.subheader("AI Response:")
-            st.write(response.choices[0].text.strip())
-        except Exception as e:
-            st.error(f"An error occurred: {str(e)}")
+        st.success('Proceed to entering your prompt message!', icon='👉')
+    with st.container() :
+        l, m, r = st.columns((1, 3, 1))
+        with l : st.empty()
+        with m : st.empty()
+        with r : st.empty()
 
-# Footer
-st.markdown("---")
-st.caption("Created with ❤️ using Streamlit and OpenAI")
+    options = option_menu(
+        "Dashboard", 
+        ["Home", "About Us", "Model"],
+        icons = ['book', 'globe', 'tools'],
+        menu_icon = "book", 
+        default_index = 0,
+        styles = {
+            "icon" : {"color" : "#dec960", "font-size" : "20px"},
+            "nav-link" : {"font-size" : "17px", "text-align" : "left", "margin" : "5px", "--hover-color" : "#262730"},
+            "nav-link-selected" : {"background-color" : "#262730"}          
+        })
+
+
+if 'messages' not in st.session_state:
+    st.session_state.messages = []
+
+if 'chat_session' not in st.session_state:
+    st.session_state.chat_session = None  # Placeholder for your chat session initialization
+
+# Options : Home
+if options == "Home" :
+
+   st.title('News Summarizer Tool')
+   st.write("Welcome to the News Article Summarizer Tool, designed to provide you with clear, concise, and well-structured summaries of news articles. This tool is ideal for readers who want to quickly grasp the essential points of any news story without wading through lengthy articles. Whether you’re catching up on global events, diving into business updates, or following the latest political developments, this summarizer delivers all the important details in a brief, easily digestible format.")
+   st.write("## What the Tool Does")
+   st.write("The News Article Summarizer Tool reads and analyzes full-length news articles, extracting the most critical information and presenting it in a structured manner. It condenses lengthy pieces into concise summaries while maintaining the integrity of the original content. This enables users to quickly understand the essence of any news story.")
+   st.write("## How It Works")
+   st.write("The tool follows a comprehensive step-by-step process to create accurate and objective summaries:")
+   st.write("*Analyze and Extract Information:* The tool carefully scans the article, identifying key elements such as the main event or issue, people involved, dates, locations, and any supporting evidence like quotes or statistics.")
+   st.write("*Structure the Summary:* It organizes the extracted information into a clear, consistent format. This includes:")
+   st.write("- *Headline:* A brief, engaging headline that captures the essence of the story.")
+   st.write("- *Lead:* A short introduction summarizing the main event.")
+   st.write("- *Significance:* An explanation of why the news matters.")
+   st.write("- *Details:* A concise breakdown of the key points.")
+   st.write("- *Conclusion:* A wrap-up sentence outlining future implications or developments.")
+   st.write("# Why Use This Tool?")
+   st.write("- *Time-Saving:* Quickly grasp the key points of any article without having to read through long pieces.")
+   st.write("- *Objective and Neutral:* The tool maintains an unbiased perspective, presenting only factual information.")
+   st.write("- *Structured and Consistent:* With its organized format, users can easily find the most relevant information, ensuring a comprehensive understanding of the topic at hand.")
+   st.write("# Ideal Users")
+   st.write("This tool is perfect for:")
+   st.write("- Busy professionals who need to stay informed but have limited time.")
+   st.write("- Students and researchers looking for quick, accurate summaries of current events.")
+   st.write("- Media outlets that want to provide readers with quick takes on trending news.")
+   st.write("Start using the News Article Summarizer Tool today to get concise and accurate insights into the news that matters most!")
+   
+elif options == "About Us" :
+     st.title('News Summarizer Tool')
+     st.subheader("About Us")
+     st.write("# Danielle Bagaforo Meer")
+     st.image('images/Meer.png')
+     st.write("## AI First Bootcamp Instructor")
+     st.text("Connect with me via Linkedin : https://www.linkedin.com/in/algorexph/")
+     st.text("Kaggle Account : https://www.kaggle.com/daniellebagaforomeer")
+     st.write("\n")
+
+
+elif options == "Model" :
+     st.title('News Summarizer Tool')
+     col1, col2, col3 = st.columns([1, 2, 1])
+
+     with col2:
+          News_Article = st.text_input("News Article URL", placeholder="Enter article URL: ")
+          submit_button = st.button("Generate Summaries")
+
+     if submit_button:
+        with st.spinner("Generating Summaries"):
+             # OpenAI-based summarization
+             System_Prompt = """You are a skilled news summarizer tasked with creating concise, informative summaries of news articles for a general audience. Use the RICCE framework to ensure each summary is clear, accurate, and engaging. Follow these guidelines:
+
+Role (R): You are an expert in news summarization, presenting complex stories in a way that is quick to read and easy to understand for a wide audience.
+
+Instructions (I): Summarize the main points of each article in 100 words or fewer, focusing on the key details: who, what, when, where, why, and any significant impacts. Ensure all relevant context is included so readers get a comprehensive understanding without needing additional background.
+
+Context (C): The audience includes readers who want an efficient, reliable overview of current events. Write in simple language, avoiding jargon and technical terms, and maintain a neutral, fact-based tone throughout.
+
+Constraints (C): Keep summaries short and relevant to the core message of the story. Avoid opinions, subjective language, and sensationalism. Structure each summary to start with the most crucial points and follow with any necessary supporting details.
+
+Examples (E):
+
+Example: “Hurricane Fiona hit Puerto Rico on Sunday, causing major flooding, power outages, and infrastructure damage. Officials report thousands of residents displaced as rescue efforts continue. The hurricane, now a Category 3 storm, is expected to impact the Dominican Republic next, prompting widespread emergency preparations.”"""
+             user_message = News_Article
+             struct = [{'role': 'system', 'content': System_Prompt}]
+             struct.append({"role": "user", "content": user_message})
+             chat = openai.ChatCompletion.create(model="gpt-4-mini", messages=struct)
+             openai_response = chat.choices[0].message.content
+             struct.append({"role": "assistant", "content": openai_response})
+
+             # newspaper3k-based summarization
+             try:
+                 article = Article(News_Article)
+                 article.download()
+                 article.parse()
+                 article.nlp()
+                 newspaper_summary = article.summary
+             except Exception as e:
+                 newspaper_summary = f"Error generating summary with newspaper3k: {str(e)}"
+
+             st.success("Summaries generated successfully!")
+             
+             st.subheader("OpenAI Summary:")
+             st.write(openai_response)
+
+             st.subheader("newspaper3k Summary:")
+             st.write(newspaper_summary)

@@ -94,14 +94,15 @@ elif options == "About Us" :
 
 
 elif options == "Model" :
-     st.title('News Summarizer Tool')
-     col1, col2, col3 = st.columns([1, 2, 1])
+     
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col1: 
+         st.title('News Summarizer Tool') 
+    with col2:
+        News_Article = st.text_input("News Article URL", placeholder="Enter article URL: ")
+        submit_button = st.button("Generate Summary")
 
-     with col2:
-          News_Article = st.text_input("News Article URL", placeholder="Enter article URL: ")
-          submit_button = st.button("Generate Summary")
-
-     if submit_button:
+    if submit_button:
         with st.spinner("Generating Summary"):
              try:
                  # Fetch the article content

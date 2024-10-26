@@ -83,11 +83,13 @@ if options == "Home" :
    st.write("- Media outlets that want to provide readers with quick takes on trending news.")
    st.write("Start using the News Article Summarizer Tool today to get concise and accurate insights into the news that matters most!")
    
-elif options == "About Us" :
+elif options == "About Us":
      st.title('News Summarizer Tool')
      st.subheader("About Me")
      st.write("# Alexander Castro")
-     st.image('images/pic.jpg', width="40%")
+     col1, col2, col3 = st.columns([1, 2, 1])
+     with col2:
+         st.image('images/pic.jpg', width=400)
      st.write("## AI First Bootcamp Student")
      st.text("Connect with me via Linkedin : https://www.linkedin.com/in/alexander-sebastian-castro/")
      st.write("\n")

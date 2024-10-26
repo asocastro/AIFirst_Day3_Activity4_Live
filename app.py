@@ -84,13 +84,15 @@ if options == "Home" :
    st.write("Start using the News Article Summarizer Tool today to get concise and accurate insights into the news that matters most!")
    
 elif options == "About Us":
-     st.title('News Summarizer Tool')
-     st.subheader("About Me")
-     st.write("# Alexander Castro")
-     st.image('images/pic.jpg', width=200)
-     st.write("## AI First Bootcamp Student")
-     st.text("Connect with me via Linkedin : https://www.linkedin.com/in/alexander-sebastian-castro/")
-     st.write("\n")
+    st.title('News Summarizer Tool')
+    st.subheader("About Me")
+    st.write("# Alexander Castro")
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        st.image('images/pic.jpg', use_column_width=True)
+    st.write("## AI First Bootcamp Student")
+    st.text("Connect with me via Linkedin : https://www.linkedin.com/in/alexander-sebastian-castro/")
+    st.write("\n")
 
 
 elif options == "Model" :

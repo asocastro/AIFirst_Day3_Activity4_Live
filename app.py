@@ -85,12 +85,11 @@ if options == "Home" :
    
 elif options == "About Us" :
      st.title('News Summarizer Tool')
-     st.subheader("About Us")
-     st.write("# Danielle Bagaforo Meer")
-     st.image('images/Meer.png')
-     st.write("## AI First Bootcamp Instructor")
-     st.text("Connect with me via Linkedin : https://www.linkedin.com/in/algorexph/")
-     st.text("Kaggle Account : https://www.kaggle.com/daniellebagaforomeer")
+     st.subheader("About Me")
+     st.write("# Alexander Castro")
+     st.image('images/pic.jpg')
+     st.write("## AI First Bootcamp Student")
+     st.text("Connect with me via Linkedin : https://www.linkedin.com/in/alexander-sebastian-castro/")
      st.write("\n")
 
 

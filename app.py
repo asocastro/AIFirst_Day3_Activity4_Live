@@ -87,19 +87,15 @@ elif options == "About Us":
      st.title('News Summarizer Tool')
      st.subheader("About Me")
      st.write("# Alexander Castro")
-     col1, col2, col3 = st.columns([1, 2, 1])
-     with col2:
-         st.image('images/pic.jpg', width=400)
+     st.image('images/pic.jpg', width=200)
      st.write("## AI First Bootcamp Student")
      st.text("Connect with me via Linkedin : https://www.linkedin.com/in/alexander-sebastian-castro/")
      st.write("\n")
 
 
 elif options == "Model" :
-     
+    st.title('News Summarizer Tool') 
     col1, col2, col3 = st.columns([1, 2, 1])
-    with col1: 
-         st.title('News Summarizer Tool') 
     with col2:
         News_Article = st.text_input("News Article URL", placeholder="Enter article URL: ")
         submit_button = st.button("Generate Summary")

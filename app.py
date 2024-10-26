@@ -16,7 +16,8 @@ import streamlit as st
 import warnings
 from streamlit_option_menu import option_menu
 from streamlit_extras.mention import mention
-from newspaper import Article
+import requests
+from bs4 import BeautifulSoup
 
 warnings.filterwarnings("ignore")
 
@@ -99,16 +100,25 @@ elif options == "Model" :
 
      with col2:
           News_Article = st.text_input("News Article URL", placeholder="Enter article URL: ")
-          submit_button = st.button("Generate Summaries")
+          submit_button = st.button("Generate Summary")
 
      if submit_button:
-        with st.spinner("Generating Summaries"):
-             # OpenAI-based summarization
-             System_Prompt = """You are a skilled news summarizer tasked with creating concise, informative summaries of news articles for a general audience. Use the RICCE framework to ensure each summary is clear, accurate, and engaging. Follow these guidelines:
+        with st.spinner("Generating Summary"):
+             try:
+                 # Fetch the article content
+                 response = requests.get(News_Article)
+                 soup = BeautifulSoup(response.content, 'html.parser')
+                 
+                 # Extract text from paragraphs
+                 paragraphs = soup.find_all('p')
+                 article_text = ' '.join([p.get_text() for p in paragraphs])
+
+                 # OpenAI-based summarization
+                 System_Prompt = """You are a skilled news summarizer tasked with creating concise, informative summaries of news articles for a general audience. Use the RICCE framework to ensure each summary is clear, accurate, and engaging. Follow these guidelines:
 
 Role (R): You are an expert in news summarization, presenting complex stories in a way that is quick to read and easy to understand for a wide audience.
 
-Instructions (I): Summarize the main points of each article in 100 words or fewer, focusing on the key details: who, what, when, where, why, and any significant impacts. Ensure all relevant context is included so readers get a comprehensive understanding without needing additional background.
+Instructions (I): Summarize the main points of the article in 100 words or fewer, focusing on the key details: who, what, when, where, why, and any significant impacts. Ensure all relevant context is included so readers get a comprehensive understanding without needing additional background.
 
 Context (C): The audience includes readers who want an efficient, reliable overview of current events. Write in simple language, avoiding jargon and technical terms, and maintain a neutral, fact-based tone throughout.
 
@@ -117,27 +127,16 @@ Constraints (C): Keep summaries short and relevant to the core message of the st
 Examples (E):
 
 Example: “Hurricane Fiona hit Puerto Rico on Sunday, causing major flooding, power outages, and infrastructure damage. Officials report thousands of residents displaced as rescue efforts continue. The hurricane, now a Category 3 storm, is expected to impact the Dominican Republic next, prompting widespread emergency preparations.”"""
-             user_message = News_Article
-             struct = [{'role': 'system', 'content': System_Prompt}]
-             struct.append({"role": "user", "content": user_message})
-             chat = openai.ChatCompletion.create(model="gpt-4-mini", messages=struct)
-             openai_response = chat.choices[0].message.content
-             struct.append({"role": "assistant", "content": openai_response})
+                 user_message = f"Please summarize the following news article: {article_text}"
+                 struct = [{'role': 'system', 'content': System_Prompt}]
+                 struct.append({"role": "user", "content": user_message})
+                 chat = openai.ChatCompletion.create(model="gpt-4-mini", messages=struct)
+                 summary = chat.choices[0].message.content
+                 struct.append({"role": "assistant", "content": summary})
 
-             # newspaper3k-based summarization
-             try:
-                 article = Article(News_Article)
-                 article.download()
-                 article.parse()
-                 article.nlp()
-                 newspaper_summary = article.summary
+                 st.success("Summary generated successfully!")
+                 
+                 st.subheader("Article Summary:")
+                 st.write(summary)
              except Exception as e:
-                 newspaper_summary = f"Error generating summary with newspaper3k: {str(e)}"
-
-             st.success("Summaries generated successfully!")
-             
-             st.subheader("OpenAI Summary:")
-             st.write(openai_response)
-
-             st.subheader("newspaper3k Summary:")
-             st.write(newspaper_summary)
+                 st.error(f"An error occurred: {str(e)}")

@@ -59,6 +59,7 @@ if 'chat_session' not in st.session_state:
 # Options : Home
 if options == "Home" :
     st.title('News Summarizer Tool')
+    st.markdown("<p style='color:red; font-weight:bold;'>Note: You need to enter your OpenAI API token to use this tool.</p>", unsafe_allow_html=True)
     st.write("Welcome to the News Summarizer Tool, designed to give you quick, concise summaries of news articles. Ideal for busy readers, this tool distills the core points of news stories across politics, business, global events, and more.")
     st.write("## Features")
     st.write("Our summarizer identifies and extracts key information, presenting it in a structured format including a headline, summary, and key details. This provides a snapshot of any article in seconds.")
@@ -76,11 +77,12 @@ elif options == "About Me":
     st.title('News Summarizer Tool')
     st.subheader("About Me")
     st.write("# Alexander Castro")
-    col1, col2, col3 = st.columns([3, 2, 3])
-    with col1:
-        st.image('images/pic.jpg', use_column_width=True)
+    # col1, col2, col3 = st.columns([3, 2, 3])
+    # with col1:
+    #     st.image('images/pic.jpg', use_column_width=True)
     st.write("## AI First Bootcamp Student")
     st.text("Connect with me via Linkedin : https://www.linkedin.com/in/alexander-sebastian-castro/")
+    st.text("Visit my Github: https://github.com/asocastro/")
     st.write("\n")
 
 

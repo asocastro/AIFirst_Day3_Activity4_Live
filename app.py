@@ -76,7 +76,7 @@ elif options == "About Me":
     st.title('News Summarizer Tool')
     st.subheader("About Me")
     st.write("# Alexander Castro")
-    col1, col2, col3 = st.columns([1, 2, 1])
+    col1, col2, col3 = st.columns([3, 2, 3])
     with col2:
         st.image('images/pic.jpg', use_column_width=True)
     st.write("## AI First Bootcamp Student")

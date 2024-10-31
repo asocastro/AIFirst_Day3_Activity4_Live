@@ -77,7 +77,7 @@ elif options == "About Me":
     st.subheader("About Me")
     st.write("# Alexander Castro")
     col1, col2, col3 = st.columns([3, 2, 3])
-    with col2:
+    with col1:
         st.image('images/pic.jpg', use_column_width=True)
     st.write("## AI First Bootcamp Student")
     st.text("Connect with me via Linkedin : https://www.linkedin.com/in/alexander-sebastian-castro/")

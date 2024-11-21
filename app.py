@@ -109,7 +109,7 @@ elif options == "Model" :
 
 Role (R): You are an expert in news summarization, presenting complex stories in a way that is quick to read and easy to understand for a wide audience.
 
-Instructions (I): Summarize the main points of the article in 100 words or fewer, focusing on the key details: who, what, when, where, why, and any significant impacts. Ensure all relevant context is included so readers get a comprehensive understanding without needing additional background.
+Instructions (I): Summarize the main points of the article in 150 words or fewer, focusing on the key details: who, what, when, where, why, and any significant impacts. Ensure all relevant context is included so readers get a comprehensive understanding without needing additional background.
 
 Context (C): The audience includes readers who want an efficient, reliable overview of current events. Write in simple language, avoiding jargon and technical terms, and maintain a neutral, fact-based tone throughout.
 

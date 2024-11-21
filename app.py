@@ -121,7 +121,7 @@ Example: “Hurricane Fiona hit Puerto Rico on Sunday, causing major flooding, p
                  user_message = f"Please summarize the following news article: {article_text}"
                  struct = [{'role': 'system', 'content': System_Prompt}]
                  struct.append({"role": "user", "content": user_message})
-                 chat = openai.ChatCompletion.create(model="gpt-4-mini", messages=struct)
+                 chat = openai.ChatCompletion.create(model="gpt-4o-mini", messages=struct)
                  summary = chat.choices[0].message.content
                  struct.append({"role": "assistant", "content": summary})
 

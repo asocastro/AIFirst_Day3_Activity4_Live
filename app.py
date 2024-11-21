@@ -124,10 +124,9 @@ Example: “Hurricane Fiona hit Puerto Rico on Sunday, causing major flooding, p
                  chat = openai.ChatCompletion.create(model="gpt-4o-mini", messages=struct)
                  summary = chat.choices[0].message.content
                  struct.append({"role": "assistant", "content": summary})
-
-                 st.write(article_text)
-                 st.success("Summary generated successfully!")
                  
+                 st.success("Summary generated successfully!")
+                 st.write(News_Article)
                  st.subheader("Article Summary:")
                  st.write(summary)
              except Exception as e:

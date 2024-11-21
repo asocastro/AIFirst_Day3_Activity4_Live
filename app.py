@@ -128,6 +128,7 @@ Example: “Hurricane Fiona hit Puerto Rico on Sunday, causing major flooding, p
                  st.success("Summary generated successfully!")
                  st.write(News_Article)
                  st.write(paragraphs)
+                 st.write(response.content)
                  st.subheader("Article Summary:")
                  st.write(summary)
              except Exception as e:

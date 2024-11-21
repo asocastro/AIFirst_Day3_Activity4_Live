@@ -98,7 +98,7 @@ elif options == "Model" :
              try:
                  # Fetch the article content
                  response = requests.get(News_Article)
-                 soup = BeautifulSoup(response.content, 'html5lib')
+                 soup = BeautifulSoup(response.content, 'html.parser')
                  
                  # Extract text from paragraphs
                  paragraphs = soup.find_all('p')

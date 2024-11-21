@@ -125,6 +125,7 @@ Example: “Hurricane Fiona hit Puerto Rico on Sunday, causing major flooding, p
                  summary = chat.choices[0].message.content
                  struct.append({"role": "assistant", "content": summary})
 
+                 st.write(article_text)
                  st.success("Summary generated successfully!")
                  
                  st.subheader("Article Summary:")

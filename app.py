@@ -21,6 +21,26 @@ from bs4 import BeautifulSoup
 
 warnings.filterwarnings("ignore")
 
+def scrape_website(url):
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+    }
+    try:
+        # Send a GET request to the website with headers
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()  # Raise an error for bad responses (4xx and 5xx)
+        
+        # Parse the HTML content
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # Extract text from all <p> tags
+        paragraphs = [p.get_text(strip=True) for p in soup.find_all('p')]
+        
+        return {"paragraphs": paragraphs}
+    
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching the URL: {e}")
+        return None
 
 st.set_page_config(page_title="News Summarizer Tool", page_icon="", layout="wide")
 
@@ -97,8 +117,7 @@ elif options == "Model" :
         with st.spinner("Generating Summary"):
              try:
                  # Fetch the article content
-                 response = requests.get(News_Article)
-                 soup = BeautifulSoup(response.content, 'html.parser')
+                 data = scrape_website(News_Article)
                  
                  # Extract text from paragraphs
                  paragraphs = soup.find_all('p')

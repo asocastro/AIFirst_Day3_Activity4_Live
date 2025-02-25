@@ -118,10 +118,6 @@ elif options == "Model" :
              try:
                  # Fetch the article content
                  data = scrape_website(News_Article)
-                 
-                 # Extract text from paragraphs
-                 paragraphs = soup.find_all('p')
-                 article_text = ' '.join([p.get_text() for p in paragraphs])
 
                  # OpenAI-based summarization
                  System_Prompt = """You are a skilled news summarizer tasked with creating concise, informative summaries of news articles for a general audience. Use the RICCE framework to ensure each summary is clear, accurate, and engaging. Follow these guidelines:
@@ -137,7 +133,7 @@ Constraints (C): Keep summaries short and relevant to the core message of the st
 Examples (E):
 
 Example: “Hurricane Fiona hit Puerto Rico on Sunday, causing major flooding, power outages, and infrastructure damage. Officials report thousands of residents displaced as rescue efforts continue. The hurricane, now a Category 3 storm, is expected to impact the Dominican Republic next, prompting widespread emergency preparations.”"""
-                 user_message = f"Please summarize the following news article: {article_text}"
+                 user_message = f"Please summarize the following news article: {data}"
                  struct = [{'role': 'system', 'content': System_Prompt}]
                  struct.append({"role": "user", "content": user_message})
                  chat = openai.ChatCompletion.create(model="gpt-4o-mini", messages=struct)
